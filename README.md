@@ -1,2 +1,2 @@
-# ozSmartHome
-ozSmartHome GitHub
+# JINI Smarthome
+JINI Smarthome GitHub
