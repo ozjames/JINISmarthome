@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-
 import { site } from "@/lib/site";
+import { Reveal } from "@/components/Reveal";
 
 const icons: Record<string, ReactNode> = {
   lighting: (
@@ -60,11 +60,11 @@ export function Services() {
       aria-labelledby="services-heading"
       className="border-b border-border"
     >
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <div className="max-w-2xl">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+        <Reveal className="max-w-2xl">
           <h2
             id="services-heading"
-            className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
+            className="font-display text-3xl font-medium tracking-tight text-foreground sm:text-4xl"
           >
             Services
           </h2>
@@ -72,24 +72,26 @@ export function Services() {
             Four focus areas that cover most Australian households — chosen and
             combined based on your home, not a one-size-fits-all package.
           </p>
-        </div>
+        </Reveal>
 
         <ul className="mt-10 grid gap-5 sm:grid-cols-2">
-          {site.services.map((service) => (
-            <li
+          {site.services.map((service, index) => (
+            <Reveal
               key={service.id}
-              className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
+              as="li"
+              delay={((index % 4) + 1) as 1 | 2 | 3 | 4}
+              className="group rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-sm)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-[var(--shadow-md)]"
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-accent-soft text-accent transition-transform duration-300 group-hover:scale-105">
                 {icons[service.id]}
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-foreground">
+              <h3 className="mt-4 text-lg font-semibold tracking-tight text-foreground">
                 {service.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">
                 {service.description}
               </p>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </div>

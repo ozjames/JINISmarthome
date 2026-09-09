@@ -62,6 +62,42 @@ function clearSentQuery() {
   window.history.replaceState({}, "", next || "/");
 }
 
+function FieldError({ id, message }: { id: string; message?: string }) {
+  if (!message) return null;
+  return (
+    <p id={id} className="mt-1.5 text-sm text-danger" role="alert">
+      {message}
+    </p>
+  );
+}
+
+function SuccessConfetti() {
+  const dots = [
+    { left: "12%", delay: "0ms", color: "var(--accent)" },
+    { left: "28%", delay: "80ms", color: "#f59e0b" },
+    { left: "45%", delay: "40ms", color: "var(--accent-hover)" },
+    { left: "62%", delay: "120ms", color: "#a8a29e" },
+    { left: "78%", delay: "60ms", color: "var(--accent)" },
+    { left: "88%", delay: "100ms", color: "#fbbf24" },
+  ];
+
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-8 h-16 overflow-hidden">
+      {dots.map((dot, i) => (
+        <span
+          key={i}
+          className="confetti-dot"
+          style={{
+            left: dot.left,
+            background: dot.color,
+            animationDelay: dot.delay,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export function ContactForm() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [state, setState] = useState<FormState>("idle");
@@ -99,11 +135,13 @@ export function ContactForm() {
 
     if (Object.keys(nextErrors).length > 0) {
       setState("idle");
+      const firstKey = Object.keys(nextErrors)[0];
+      const el = formEl.querySelector<HTMLElement>(`[name="${firstKey === "contact" ? "email" : firstKey}"]`);
+      el?.focus();
       return;
     }
 
     setState("submitting");
-    // Traditional POST to PHP on shared hosting; server redirects to /?sent=1
     formEl.submit();
   }
 
@@ -111,30 +149,52 @@ export function ContactForm() {
     return (
       <div
         role="status"
-        className="rounded-2xl border border-teal-200 bg-accent-soft/60 p-6 sm:p-8"
+        className="relative overflow-hidden rounded-3xl border border-border bg-accent-soft/50 p-6 shadow-[var(--shadow-sm)] sm:p-8"
       >
-        <h3 className="text-lg font-semibold text-foreground">Enquiry sent</h3>
-        <p className="mt-2 text-sm leading-relaxed text-muted">{serverMessage}</p>
-        <p className="mt-4 text-sm text-muted">
-          Prefer to reach out directly?{" "}
-          <a className="font-medium text-accent underline-offset-2 hover:underline" href={site.contact.emailHref}>
-            {site.contact.email}
-          </a>{" "}
-          ·{" "}
-          <a className="font-medium text-accent underline-offset-2 hover:underline" href={site.contact.phoneHref}>
-            {site.contact.phone}
-          </a>
-        </p>
-        <button
-          type="button"
-          className="mt-6 inline-flex rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground hover:bg-stone-100"
-          onClick={() => {
-            setState("idle");
-            setServerMessage("");
-          }}
-        >
-          Send another message
-        </button>
+        <SuccessConfetti />
+        <div className="relative">
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
+            <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
+              <path
+                d="m5 12 5 5L20 7"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+          <h3 className="font-display text-2xl font-medium tracking-tight text-foreground">
+            Enquiry sent
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-muted">{serverMessage}</p>
+          <p className="mt-4 text-sm text-muted">
+            Prefer to reach out directly?{" "}
+            <a
+              className="font-medium text-accent underline-offset-2 hover:underline"
+              href={site.contact.emailHref}
+            >
+              {site.contact.email}
+            </a>{" "}
+            ·{" "}
+            <a
+              className="font-medium text-accent underline-offset-2 hover:underline"
+              href={site.contact.phoneHref}
+            >
+              {site.contact.phone}
+            </a>
+          </p>
+          <button
+            type="button"
+            className="mt-6 inline-flex rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground hover:bg-surface-muted"
+            onClick={() => {
+              setState("idle");
+              setServerMessage("");
+            }}
+          >
+            Send another message
+          </button>
+        </div>
       </div>
     );
   }
@@ -145,173 +205,144 @@ export function ContactForm() {
       action="contact.php"
       method="post"
       onSubmit={onSubmit}
-      className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8"
+      className="rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-md)] sm:p-8"
       aria-describedby={errors.contact ? "contact-method-error" : undefined}
     >
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label htmlFor="name" className="block text-sm font-medium text-foreground">
-            Name <span className="text-accent">*</span>
-          </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            autoComplete="name"
-            required
-            aria-invalid={Boolean(errors.name)}
-            aria-describedby={errors.name ? "name-error" : undefined}
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-stone-400"
-            placeholder="Alex Nguyen"
-          />
-          {errors.name ? (
-            <p id="name-error" className="mt-1.5 text-sm text-red-700" role="alert">
-              {errors.name}
-            </p>
-          ) : null}
+          <div className="float-field">
+            <input
+              id="name"
+              name="name"
+              type="text"
+              autoComplete="name"
+              required
+              placeholder=" "
+              aria-invalid={Boolean(errors.name)}
+              aria-describedby={errors.name ? "name-error" : undefined}
+            />
+            <label htmlFor="name">
+              Name <span className="text-accent">*</span>
+            </label>
+          </div>
+          <FieldError id="name-error" message={errors.name} />
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-foreground">
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            aria-invalid={Boolean(errors.email)}
-            aria-describedby={errors.email ? "email-error" : undefined}
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-stone-400"
-            placeholder="you@example.com"
-          />
-          {errors.email ? (
-            <p id="email-error" className="mt-1.5 text-sm text-red-700" role="alert">
-              {errors.email}
-            </p>
-          ) : null}
+          <div className="float-field">
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              placeholder=" "
+              aria-invalid={Boolean(errors.email)}
+              aria-describedby={errors.email ? "email-error" : undefined}
+            />
+            <label htmlFor="email">Email</label>
+          </div>
+          <FieldError id="email-error" message={errors.email} />
         </div>
 
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-foreground">
-            Phone
-          </label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            autoComplete="tel"
-            inputMode="tel"
-            aria-invalid={Boolean(errors.phone)}
-            aria-describedby={errors.phone ? "phone-error" : undefined}
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-stone-400"
-            placeholder="+61 4xx xxx xxx"
-          />
-          {errors.phone ? (
-            <p id="phone-error" className="mt-1.5 text-sm text-red-700" role="alert">
-              {errors.phone}
-            </p>
-          ) : null}
+          <div className="float-field">
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              autoComplete="tel"
+              inputMode="tel"
+              placeholder=" "
+              aria-invalid={Boolean(errors.phone)}
+              aria-describedby={errors.phone ? "phone-error" : undefined}
+            />
+            <label htmlFor="phone">Phone</label>
+          </div>
+          <FieldError id="phone-error" message={errors.phone} />
         </div>
 
         {errors.contact ? (
           <p
             id="contact-method-error"
-            className="sm:col-span-2 text-sm text-red-700"
+            className="sm:col-span-2 text-sm text-danger"
             role="alert"
           >
             {errors.contact}
           </p>
         ) : (
-          <p className="sm:col-span-2 -mt-2 text-xs text-muted">
+          <p className="sm:col-span-2 -mt-1 text-xs text-muted">
             Provide at least one of email or phone.
           </p>
         )}
 
         <div>
-          <label
-            htmlFor="preferredTime"
-            className="block text-sm font-medium text-foreground"
-          >
-            Preferred contact time <span className="text-accent">*</span>
-          </label>
-          <select
-            id="preferredTime"
-            name="preferredTime"
-            required
-            defaultValue=""
-            aria-invalid={Boolean(errors.preferredTime)}
-            aria-describedby={
-              errors.preferredTime ? "preferredTime-error" : undefined
-            }
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground"
-          >
-            <option value="" disabled>
-              Select a time…
-            </option>
-            <option value="weekday-morning">Weekday morning</option>
-            <option value="weekday-afternoon">Weekday afternoon</option>
-            <option value="weekday-evening">Weekday evening</option>
-            <option value="weekend">Weekend</option>
-            <option value="anytime">Anytime</option>
-          </select>
-          {errors.preferredTime ? (
-            <p
-              id="preferredTime-error"
-              className="mt-1.5 text-sm text-red-700"
-              role="alert"
+          <div className="float-field">
+            <select
+              id="preferredTime"
+              name="preferredTime"
+              required
+              defaultValue=""
+              aria-invalid={Boolean(errors.preferredTime)}
+              aria-describedby={
+                errors.preferredTime ? "preferredTime-error" : undefined
+              }
             >
-              {errors.preferredTime}
-            </p>
-          ) : null}
+              <option value="" disabled>
+                {" "}
+              </option>
+              <option value="weekday-morning">Weekday morning</option>
+              <option value="weekday-afternoon">Weekday afternoon</option>
+              <option value="weekday-evening">Weekday evening</option>
+              <option value="weekend">Weekend</option>
+              <option value="anytime">Anytime</option>
+            </select>
+            <label htmlFor="preferredTime">
+              Preferred contact time <span className="text-accent">*</span>
+            </label>
+          </div>
+          <FieldError id="preferredTime-error" message={errors.preferredTime} />
         </div>
 
         <div>
-          <label htmlFor="suburb" className="block text-sm font-medium text-foreground">
-            Suburb / city (Australia) <span className="text-accent">*</span>
-          </label>
-          <input
-            id="suburb"
-            name="suburb"
-            type="text"
-            autoComplete="address-level2"
-            required
-            aria-invalid={Boolean(errors.suburb)}
-            aria-describedby={errors.suburb ? "suburb-error" : undefined}
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-stone-400"
-            placeholder="e.g. Parramatta NSW"
-          />
-          {errors.suburb ? (
-            <p id="suburb-error" className="mt-1.5 text-sm text-red-700" role="alert">
-              {errors.suburb}
-            </p>
-          ) : null}
+          <div className="float-field">
+            <input
+              id="suburb"
+              name="suburb"
+              type="text"
+              autoComplete="address-level2"
+              required
+              placeholder=" "
+              aria-invalid={Boolean(errors.suburb)}
+              aria-describedby={errors.suburb ? "suburb-error" : undefined}
+            />
+            <label htmlFor="suburb">
+              Suburb / city (Australia) <span className="text-accent">*</span>
+            </label>
+          </div>
+          <FieldError id="suburb-error" message={errors.suburb} />
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor="message" className="block text-sm font-medium text-foreground">
-            Message <span className="text-accent">*</span>
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            rows={5}
-            required
-            aria-invalid={Boolean(errors.message)}
-            aria-describedby={errors.message ? "message-error" : undefined}
-            className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-stone-400"
-            placeholder="Tell us about your home, goals, and timeline…"
-          />
-          {errors.message ? (
-            <p id="message-error" className="mt-1.5 text-sm text-red-700" role="alert">
-              {errors.message}
-            </p>
-          ) : null}
+          <div className="float-field float-textarea">
+            <textarea
+              id="message"
+              name="message"
+              rows={5}
+              required
+              placeholder=" "
+              aria-invalid={Boolean(errors.message)}
+              aria-describedby={errors.message ? "message-error" : undefined}
+            />
+            <label htmlFor="message">
+              Message <span className="text-accent">*</span>
+            </label>
+          </div>
+          <FieldError id="message-error" message={errors.message} />
         </div>
       </div>
 
       {state === "error" && serverMessage ? (
-        <p className="mt-4 text-sm text-red-700" role="alert">
+        <p className="mt-4 text-sm text-danger" role="alert">
           {serverMessage}
         </p>
       ) : null}
@@ -319,7 +350,7 @@ export function ContactForm() {
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs text-muted">
           Submits via PHP on shared hosting. Set the recipient email in{" "}
-          <code className="rounded bg-stone-100 px-1">contact.php</code>.
+          <code className="rounded bg-surface-muted px-1">contact.php</code>.
         </p>
         <button
           type="submit"

@@ -24,6 +24,7 @@ export const site = {
     { label: "Services", href: "#services" },
     { label: "Why us", href: "#why-us" },
     { label: "Process", href: "#process" },
+    { label: "FAQ", href: "#faq" },
     { label: "Contact", href: "#contact" },
   ],
 
@@ -101,6 +102,39 @@ export const site = {
       title: "Support",
       description:
         "Handover training for your household, plus ongoing support for adjustments, new rooms, or seasonal fine-tuning.",
+    },
+  ],
+
+  faq: [
+    {
+      question: "Do you only work in one city?",
+      answer:
+        "Consulting is available Australia-wide (video or phone). Installation is arranged locally where practical — tell us your suburb and we’ll be upfront about coverage and travel.",
+    },
+    {
+      question: "Will you lock me into one brand or app?",
+      answer:
+        "No. We recommend platforms that fit your home and habits. Where possible we favour open, well-supported options and avoid unnecessary proprietary lock-in.",
+    },
+    {
+      question: "I already own some smart devices — can you work with them?",
+      answer:
+        "Often yes. We’ll review what you have, what still works well, and what is worth replacing — then design around the keepers rather than starting from scratch.",
+    },
+    {
+      question: "Do you handle electrical work?",
+      answer:
+        "Licensed electrical work is coordinated with qualified electricians where required. We scope what’s needed in the plan so there are no surprises on install day.",
+    },
+    {
+      question: "How much does a typical project cost?",
+      answer:
+        "It depends on rooms, devices, and whether cabling or electrical upgrades are needed. After a consult we provide a clear written scope and estimate — no package pressure.",
+    },
+    {
+      question: "Is this a live control dashboard or product store?",
+      answer:
+        "This site is an introduction and enquiry form only. We don’t sell a catalogue online or host a live home dashboard here — the real system lives in your home after install.",
     },
   ],
 
