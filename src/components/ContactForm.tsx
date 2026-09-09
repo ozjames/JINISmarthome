@@ -149,7 +149,7 @@ export function ContactForm() {
     return (
       <div
         role="status"
-        className="relative overflow-hidden rounded-3xl border border-border bg-accent-soft/50 p-6 shadow-[var(--shadow-sm)] sm:p-8"
+        className="relative overflow-hidden rounded-xl border border-border bg-accent-soft/50 p-6 shadow-[var(--shadow-sm)] sm:p-8"
       >
         <SuccessConfetti />
         <div className="relative">
@@ -205,7 +205,7 @@ export function ContactForm() {
       action="contact.php"
       method="post"
       onSubmit={onSubmit}
-      className="rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-md)] sm:p-8"
+      className="rounded-xl border border-border bg-card p-6 shadow-[var(--shadow-md)] sm:p-8"
       aria-describedby={errors.contact ? "contact-method-error" : undefined}
     >
       <div className="grid gap-4 sm:grid-cols-2">
@@ -355,7 +355,7 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={state === "submitting"}
-          className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-70"
+          className="inline-flex items-center justify-center rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-70"
         >
           {state === "submitting" ? "Sending…" : "Send enquiry"}
         </button>

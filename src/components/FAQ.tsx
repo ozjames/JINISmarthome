@@ -16,6 +16,9 @@ export function FAQ() {
     >
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
         <Reveal className="max-w-2xl">
+          <p className="mb-3 font-mono text-[0.7rem] font-medium uppercase tracking-[0.16em] text-accent">
+            Knowledge base · 04
+          </p>
           <h2
             id="faq-heading"
             className="font-display text-3xl font-medium tracking-tight text-foreground sm:text-4xl"
@@ -28,7 +31,7 @@ export function FAQ() {
           </p>
         </Reveal>
 
-        <div className="mt-10 mx-auto max-w-3xl divide-y divide-border rounded-3xl border border-border bg-background shadow-[var(--shadow-sm)]">
+        <div className="mt-10 mx-auto max-w-3xl divide-y divide-border rounded-xl border border-border bg-background shadow-[var(--shadow-sm)]">
           {site.faq.map((item, index) => {
             const open = openIndex === index;
             const panelId = `${baseId}-panel-${index}`;

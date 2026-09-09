@@ -11,6 +11,9 @@ export function Contact() {
     >
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:px-8 lg:py-24">
         <Reveal>
+          <p className="mb-3 font-mono text-[0.7rem] font-medium uppercase tracking-[0.16em] text-accent">
+            Engage · 05
+          </p>
           <h2
             id="contact-heading"
             className="font-display text-3xl font-medium tracking-tight text-foreground sm:text-4xl"

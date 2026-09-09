@@ -45,7 +45,7 @@ export function Header() {
         >
           <span
             aria-hidden
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent text-sm font-bold tracking-tight text-accent-foreground shadow-[0_8px_20px_var(--accent-glow)]"
+            className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-sm font-bold tracking-tight text-accent-foreground shadow-[0_8px_20px_var(--accent-glow)]"
           >
             J
           </span>
@@ -79,7 +79,7 @@ export function Header() {
           <ThemeToggle />
           <a
             href="#contact"
-            className="hidden items-center justify-center rounded-full bg-accent px-3.5 py-2 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-hover sm:inline-flex"
+            className="hidden items-center justify-center rounded-lg bg-accent px-3.5 py-2 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-hover sm:inline-flex"
           >
             Get in touch
           </a>
@@ -131,7 +131,7 @@ export function Header() {
             <a
               href="#contact"
               onClick={() => setMenuOpen(false)}
-              className="mt-1 inline-flex items-center justify-center rounded-full bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground"
+              className="mt-1 inline-flex items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground"
             >
               Book a consult
             </a>
