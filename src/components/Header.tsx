@@ -43,15 +43,14 @@ export function Header() {
           href="#top"
           className="group flex items-center gap-2.5 rounded-md text-foreground no-underline"
         >
-          <span
-            aria-hidden
-            className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-sm font-bold tracking-tight text-accent-foreground shadow-[0_8px_20px_var(--accent-glow)]"
-          >
-            J
-          </span>
-          <span className="text-sm font-semibold tracking-tight sm:text-[0.95rem]">
-            {site.brand}
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="logo/logo.png"
+            alt={site.brand}
+            className="h-9 w-auto rounded-md"
+            width={160}
+            height={36}
+          />
         </a>
 
         <nav aria-label="Primary" className="hidden items-center gap-0.5 lg:flex">
@@ -63,9 +62,9 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "true" : undefined}
-                className={`rounded-full px-3 py-2 text-sm transition-colors ${
+                className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                   active
-                    ? "bg-accent-soft font-medium text-accent"
+                    ? "bg-accent-soft text-accent"
                     : "text-muted hover:bg-surface-muted hover:text-foreground"
                 }`}
               >
@@ -76,16 +75,30 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <a
+            href={site.contact.phoneHref}
+            className="hidden items-center gap-1.5 rounded-md px-2.5 py-2 text-sm font-medium text-foreground transition-colors hover:text-accent md:inline-flex"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 text-accent" fill="none" aria-hidden>
+              <path
+                d="M6.5 4.5h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5l1.5-2 4 1.5v3c0 .8-.7 1.5-1.5 1.5C10.5 20 4 13.5 4 6c0-.8.7-1.5 1.5-1.5Z"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinejoin="round"
+              />
+            </svg>
+            {site.contact.phone}
+          </a>
           <ThemeToggle />
           <a
             href="#contact"
-            className="hidden items-center justify-center rounded-lg bg-accent px-3.5 py-2 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-hover sm:inline-flex"
+            className="hidden items-center justify-center rounded-md bg-accent px-3.5 py-2 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-hover sm:inline-flex"
           >
-            Get in touch
+            Get a free consult
           </a>
           <button
             type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-foreground lg:hidden"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border bg-card text-foreground lg:hidden"
             aria-expanded={menuOpen}
             aria-controls="mobile-nav"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -118,9 +131,9 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`rounded-xl px-3 py-2.5 text-sm ${
+                  className={`rounded-md px-3 py-2.5 text-sm font-medium ${
                     active
-                      ? "bg-accent-soft font-medium text-accent"
+                      ? "bg-accent-soft text-accent"
                       : "text-foreground hover:bg-surface-muted"
                   }`}
                 >
@@ -129,11 +142,18 @@ export function Header() {
               );
             })}
             <a
+              href={site.contact.phoneHref}
+              onClick={() => setMenuOpen(false)}
+              className="rounded-md px-3 py-2.5 text-sm font-medium text-foreground hover:bg-surface-muted"
+            >
+              Call {site.contact.phone}
+            </a>
+            <a
               href="#contact"
               onClick={() => setMenuOpen(false)}
-              className="mt-1 inline-flex items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground"
+              className="mt-1 inline-flex items-center justify-center rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground"
             >
-              Book a consult
+              Get a free consult
             </a>
           </nav>
         </div>

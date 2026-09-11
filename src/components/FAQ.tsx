@@ -12,26 +12,24 @@ export function FAQ() {
     <section
       id="faq"
       aria-labelledby="faq-heading"
-      className="border-b border-border bg-card"
+      className="border-b border-border bg-surface-muted"
     >
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
-        <Reveal className="max-w-2xl">
-          <p className="mb-3 font-mono text-[0.7rem] font-medium uppercase tracking-[0.16em] text-accent">
-            Knowledge base · 04
-          </p>
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <p className="mb-3 text-sm font-semibold text-accent">FAQ</p>
           <h2
             id="faq-heading"
-            className="font-display text-3xl font-medium tracking-tight text-foreground sm:text-4xl"
+            className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
           >
-            Frequently asked questions
+            Questions homeowners ask us
           </h2>
           <p className="mt-3 text-base leading-relaxed text-muted">
-            Straight answers about how we work — no inflated claims or fake
-            social proof.
+            Straight answers about coverage, brands, cost, and how we work —
+            no inflated claims.
           </p>
         </Reveal>
 
-        <div className="mt-10 mx-auto max-w-3xl divide-y divide-border rounded-xl border border-border bg-background shadow-[var(--shadow-sm)]">
+        <div className="mx-auto mt-10 max-w-3xl divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-sm)]">
           {site.faq.map((item, index) => {
             const open = openIndex === index;
             const panelId = `${baseId}-panel-${index}`;
@@ -44,7 +42,7 @@ export function FAQ() {
                     id={buttonId}
                     aria-expanded={open}
                     aria-controls={panelId}
-                    className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-base font-medium text-foreground transition-colors hover:bg-surface-muted/60 sm:px-6"
+                    className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left text-base font-medium text-foreground transition-colors hover:bg-surface-muted/80 sm:px-6"
                     onClick={() => setOpenIndex(open ? null : index)}
                   >
                     <span>{item.question}</span>

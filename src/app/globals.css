@@ -1,48 +1,48 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f3f1ec;
-  --foreground: #161412;
-  --muted: #6b645c;
-  --card: #fffcf8;
+  --background: #ffffff;
+  --foreground: #111827;
+  --muted: #6b7280;
+  --card: #ffffff;
   --card-elevated: #ffffff;
-  --border: #e4ded4;
-  --border-strong: #d0c8bc;
-  --accent: #0d7370;
-  --accent-hover: #0f8a86;
-  --accent-soft: #d8f3ef;
+  --border: #e5e7eb;
+  --border-strong: #d1d5db;
+  --accent: #ff6600;
+  --accent-hover: #e85d00;
+  --accent-soft: #fff1e8;
   --accent-foreground: #ffffff;
-  --accent-glow: rgba(13, 115, 112, 0.2);
-  --surface-muted: #ebe6df;
-  --danger: #b91c1c;
-  --header-bg: rgba(243, 241, 236, 0.82);
-  --shadow-sm: 0 1px 2px rgba(22, 20, 18, 0.04), 0 4px 14px rgba(22, 20, 18, 0.04);
-  --shadow-md: 0 10px 32px rgba(22, 20, 18, 0.08);
+  --accent-glow: rgba(255, 102, 0, 0.18);
+  --surface-muted: #f9fafb;
+  --danger: #dc2626;
+  --header-bg: rgba(255, 255, 255, 0.92);
+  --shadow-sm: 0 1px 2px rgba(17, 24, 39, 0.04), 0 1px 3px rgba(17, 24, 39, 0.06);
+  --shadow-md: 0 8px 24px rgba(17, 24, 39, 0.08);
   --ring: var(--accent);
-  --grid-line: rgba(22, 20, 18, 0.055);
+  --hero-tint: #fff8f3;
   color-scheme: light;
 }
 
 html.dark {
-  --background: #0e0e0d;
-  --foreground: #f3efe9;
-  --muted: #a39b93;
-  --card: #161513;
-  --card-elevated: #1c1b18;
-  --border: #2a2824;
-  --border-strong: #3c3933;
-  --accent: #2dd4bf;
-  --accent-hover: #5eead4;
-  --accent-soft: rgba(45, 212, 191, 0.1);
-  --accent-foreground: #042f2e;
-  --accent-glow: rgba(45, 212, 191, 0.2);
-  --surface-muted: #1a1916;
-  --danger: #fca5a5;
-  --header-bg: rgba(14, 14, 13, 0.82);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.28);
-  --shadow-md: 0 14px 40px rgba(0, 0, 0, 0.5);
+  --background: #0b0f14;
+  --foreground: #f3f4f6;
+  --muted: #9ca3af;
+  --card: #121821;
+  --card-elevated: #171e28;
+  --border: #243041;
+  --border-strong: #334155;
+  --accent: #ff7a26;
+  --accent-hover: #ff8f4a;
+  --accent-soft: rgba(255, 122, 38, 0.12);
+  --accent-foreground: #111827;
+  --accent-glow: rgba(255, 122, 38, 0.22);
+  --surface-muted: #151c26;
+  --danger: #f87171;
+  --header-bg: rgba(11, 15, 20, 0.9);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35), 0 4px 14px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.45);
   --ring: var(--accent);
-  --grid-line: rgba(243, 239, 233, 0.045);
+  --hero-tint: #121018;
   color-scheme: dark;
 }
 
@@ -60,9 +60,8 @@ html.dark {
   --color-accent-foreground: var(--accent-foreground);
   --color-surface-muted: var(--surface-muted);
   --color-danger: var(--danger);
-  --font-sans: var(--font-dm-sans);
-  --font-display: var(--font-fraunces);
-  --font-mono: var(--font-geist-mono);
+  --color-hero-tint: var(--hero-tint);
+  --font-sans: var(--font-inter);
 }
 
 html {
@@ -72,16 +71,8 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
   text-rendering: optimizeLegibility;
-}
-
-.font-display {
-  font-family: var(--font-display), Georgia, "Times New Roman", serif;
-}
-
-.font-mono {
-  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 ::selection {
@@ -94,36 +85,13 @@ body {
   outline-offset: 2px;
 }
 
-/* Precise technical grid */
-.tech-grid {
-  background-image:
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 20%, transparent 75%);
-}
-
-/* Soft animated mesh glow for hero */
-@keyframes mesh-drift {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
-  50% { transform: translate3d(2%, -1.5%, 0) scale(1.04); opacity: 1; }
-}
-
-.mesh-glow {
-  background:
-    radial-gradient(ellipse 55% 40% at 78% 18%, var(--accent-glow), transparent 55%),
-    radial-gradient(ellipse 40% 35% at 12% 72%, var(--accent-soft), transparent 60%),
-    radial-gradient(ellipse 30% 28% at 48% 48%, var(--accent-glow), transparent 70%);
-  animation: mesh-drift 14s ease-in-out infinite;
-}
-
 /* Scroll reveal */
 .reveal {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(14px);
   transition:
-    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .reveal.is-visible {
@@ -131,10 +99,10 @@ body {
   transform: translateY(0);
 }
 
-.reveal-delay-1 { transition-delay: 0.08s; }
-.reveal-delay-2 { transition-delay: 0.16s; }
-.reveal-delay-3 { transition-delay: 0.24s; }
-.reveal-delay-4 { transition-delay: 0.32s; }
+.reveal-delay-1 { transition-delay: 0.06s; }
+.reveal-delay-2 { transition-delay: 0.12s; }
+.reveal-delay-3 { transition-delay: 0.18s; }
+.reveal-delay-4 { transition-delay: 0.24s; }
 
 /* Floating label fields */
 .float-field {
@@ -145,7 +113,7 @@ body {
 .float-field textarea,
 .float-field select {
   width: 100%;
-  border-radius: 0.65rem;
+  border-radius: 0.5rem;
   border: 1px solid var(--border);
   background: var(--background);
   color: var(--foreground);
@@ -162,7 +130,7 @@ body {
 
 .float-field select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%236b645c' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%236b7280' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.85rem center;
   padding-right: 2.5rem;
@@ -208,7 +176,7 @@ body {
   top: 0.45rem;
   transform: none;
   font-size: 0.6875rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   color: var(--accent);
   font-weight: 600;
 }
@@ -226,12 +194,11 @@ body {
   top: 0.45rem;
   transform: none;
   font-size: 0.6875rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   color: var(--accent);
   font-weight: 600;
 }
 
-/* Soft success confetti dots */
 @keyframes confetti-rise {
   0% { opacity: 0; transform: translateY(8px) scale(0.6); }
   20% { opacity: 1; }
@@ -258,8 +225,7 @@ body {
     transition: none;
   }
 
-  .confetti-dot,
-  .mesh-glow {
+  .confetti-dot {
     animation: none !important;
   }
 

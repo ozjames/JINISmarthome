@@ -5,7 +5,6 @@ import { site } from "@/lib/site";
 
 type FieldErrors = {
   name?: string;
-  contact?: string;
   email?: string;
   phone?: string;
   preferredTime?: string;
@@ -28,20 +27,19 @@ function validate(form: FormData): FieldErrors {
   const message = String(form.get("message") ?? "").trim();
 
   if (!name) errors.name = "Please enter your name.";
-  if (!email && !phone) {
-    errors.contact = "Provide an email or phone number so we can reach you.";
+  if (!phone) {
+    errors.phone = "Phone is required so we can call you back.";
+  } else if (!PHONE_RE.test(phone)) {
+    errors.phone = "Enter a valid phone number.";
   }
   if (email && !EMAIL_RE.test(email)) {
     errors.email = "Enter a valid email address.";
-  }
-  if (phone && !PHONE_RE.test(phone)) {
-    errors.phone = "Enter a valid phone number.";
   }
   if (!preferredTime) {
     errors.preferredTime = "Select a preferred contact time.";
   }
   if (!suburb) {
-    errors.suburb = "Enter your suburb or city in Australia.";
+    errors.suburb = "Enter your suburb or city.";
   }
   if (!message) {
     errors.message = "Please include a short message.";
@@ -110,7 +108,7 @@ export function ContactForm() {
     if (sent === "1") {
       setState("success");
       setServerMessage(
-        "Thanks — we’ve received your enquiry and will be in touch.",
+        "Thanks — we’ve received your enquiry. Our team will call you on the number you provided.",
       );
       clearSentQuery();
       return;
@@ -119,7 +117,7 @@ export function ContactForm() {
       setState("error");
       setServerMessage(
         params.get("error") ??
-          "Something went wrong sending your message. Please try again or email us directly.",
+          "Something went wrong sending your message. Please try again or call us directly.",
       );
       clearSentQuery();
     }
@@ -136,7 +134,7 @@ export function ContactForm() {
     if (Object.keys(nextErrors).length > 0) {
       setState("idle");
       const firstKey = Object.keys(nextErrors)[0];
-      const el = formEl.querySelector<HTMLElement>(`[name="${firstKey === "contact" ? "email" : firstKey}"]`);
+      const el = formEl.querySelector<HTMLElement>(`[name="${firstKey}"]`);
       el?.focus();
       return;
     }
@@ -149,7 +147,7 @@ export function ContactForm() {
     return (
       <div
         role="status"
-        className="relative overflow-hidden rounded-xl border border-border bg-accent-soft/50 p-6 shadow-[var(--shadow-sm)] sm:p-8"
+        className="relative overflow-hidden rounded-2xl border border-border bg-accent-soft/50 p-6 shadow-[var(--shadow-sm)] sm:p-8"
       >
         <SuccessConfetti />
         <div className="relative">
@@ -164,21 +162,14 @@ export function ContactForm() {
               />
             </svg>
           </div>
-          <h3 className="font-display text-2xl font-medium tracking-tight text-foreground">
-            Enquiry sent
+          <h3 className="text-2xl font-bold tracking-tight text-foreground">
+            We’ll call you soon
           </h3>
           <p className="mt-2 text-sm leading-relaxed text-muted">{serverMessage}</p>
           <p className="mt-4 text-sm text-muted">
-            Prefer to reach out directly?{" "}
+            Prefer to reach us now?{" "}
             <a
-              className="font-medium text-accent underline-offset-2 hover:underline"
-              href={site.contact.emailHref}
-            >
-              {site.contact.email}
-            </a>{" "}
-            ·{" "}
-            <a
-              className="font-medium text-accent underline-offset-2 hover:underline"
+              className="font-semibold text-accent underline-offset-2 hover:underline"
               href={site.contact.phoneHref}
             >
               {site.contact.phone}
@@ -186,7 +177,7 @@ export function ContactForm() {
           </p>
           <button
             type="button"
-            className="mt-6 inline-flex rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground hover:bg-surface-muted"
+            className="mt-6 inline-flex rounded-md border border-border bg-card px-4 py-2 text-sm font-medium text-foreground hover:bg-surface-muted"
             onClick={() => {
               setState("idle");
               setServerMessage("");
@@ -205,8 +196,7 @@ export function ContactForm() {
       action="contact.php"
       method="post"
       onSubmit={onSubmit}
-      className="rounded-xl border border-border bg-card p-6 shadow-[var(--shadow-md)] sm:p-8"
-      aria-describedby={errors.contact ? "contact-method-error" : undefined}
+      className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-md)] sm:p-8"
     >
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
@@ -231,6 +221,26 @@ export function ContactForm() {
         <div>
           <div className="float-field">
             <input
+              id="phone"
+              name="phone"
+              type="tel"
+              autoComplete="tel"
+              inputMode="tel"
+              required
+              placeholder=" "
+              aria-invalid={Boolean(errors.phone)}
+              aria-describedby={errors.phone ? "phone-error" : undefined}
+            />
+            <label htmlFor="phone">
+              Phone <span className="text-accent">*</span>
+            </label>
+          </div>
+          <FieldError id="phone-error" message={errors.phone} />
+        </div>
+
+        <div>
+          <div className="float-field">
+            <input
               id="email"
               name="email"
               type="email"
@@ -239,41 +249,14 @@ export function ContactForm() {
               aria-invalid={Boolean(errors.email)}
               aria-describedby={errors.email ? "email-error" : undefined}
             />
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Email (optional)</label>
           </div>
           <FieldError id="email-error" message={errors.email} />
         </div>
 
-        <div>
-          <div className="float-field">
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              autoComplete="tel"
-              inputMode="tel"
-              placeholder=" "
-              aria-invalid={Boolean(errors.phone)}
-              aria-describedby={errors.phone ? "phone-error" : undefined}
-            />
-            <label htmlFor="phone">Phone</label>
-          </div>
-          <FieldError id="phone-error" message={errors.phone} />
-        </div>
-
-        {errors.contact ? (
-          <p
-            id="contact-method-error"
-            className="sm:col-span-2 text-sm text-danger"
-            role="alert"
-          >
-            {errors.contact}
-          </p>
-        ) : (
-          <p className="sm:col-span-2 -mt-1 text-xs text-muted">
-            Provide at least one of email or phone.
-          </p>
-        )}
+        <p className="sm:col-span-2 -mt-1 text-xs text-muted">
+          Phone is required — we’ll call you back. Email is optional.
+        </p>
 
         <div>
           <div className="float-field">
@@ -316,7 +299,7 @@ export function ContactForm() {
               aria-describedby={errors.suburb ? "suburb-error" : undefined}
             />
             <label htmlFor="suburb">
-              Suburb / city (Australia) <span className="text-accent">*</span>
+              Suburb (Sydney / Central Coast) <span className="text-accent">*</span>
             </label>
           </div>
           <FieldError id="suburb-error" message={errors.suburb} />
@@ -349,15 +332,17 @@ export function ContactForm() {
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs text-muted">
-          Submits via PHP on shared hosting. Set the recipient email in{" "}
-          <code className="rounded bg-surface-muted px-1">contact.php</code>.
+          Or call{" "}
+          <a href={site.contact.phoneHref} className="font-semibold text-accent hover:underline">
+            {site.contact.phone}
+          </a>
         </p>
         <button
           type="submit"
           disabled={state === "submitting"}
-          className="inline-flex items-center justify-center rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-70"
+          className="inline-flex items-center justify-center rounded-md bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {state === "submitting" ? "Sending…" : "Send enquiry"}
+          {state === "submitting" ? "Sending…" : "Request a call back"}
         </button>
       </div>
     </form>

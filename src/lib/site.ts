@@ -1,23 +1,21 @@
 /**
  * Central brand & contact configuration for JINI Smart Home.
- * Update these values to rename the brand or replace placeholder contact details.
  */
 
 export const site = {
   brand: "JINI Smart Home",
   shortBrand: "JINI",
-  tagline: "Smarter homes for everyday Australian living",
+  company: "JINI TECH PTY LTD",
+  tagline: "Smart home systems that fit the way you live",
   description:
-    "Independent smart home consulting and installation across Australia — lighting, security, climate, and energy, designed around how you actually live.",
+    "Consulting and installation for lighting, security, climate, and energy — planned around your home across Sydney and the Central Coast, not a one-size package.",
   locale: "en-AU",
 
-  /** Replace these placeholders with your real business contact details. */
   contact: {
-    email: "hello@example.com.au", // TODO: replace with your business email
-    phone: "+61 400 000 000", // TODO: replace with your Australian mobile/landline
-    phoneHref: "tel:+61400000000", // TODO: replace (digits only after +61)
-    emailHref: "mailto:hello@example.com.au", // TODO: replace
-    serviceArea: "Australia-wide consulting · Local installation by arrangement",
+    phone: "0431 395 737",
+    phoneHref: "tel:+61431395737",
+    serviceArea: "Sydney & Central Coast, Australia",
+    note: "Phone-first enquiries — we’ll call you back on the number you provide.",
   },
 
   nav: [
@@ -62,9 +60,9 @@ export const site = {
         "We start with how your household actually uses the home — routines, pain points, and what you don’t want to manage — before recommending products or packages.",
     },
     {
-      title: "Designed for Australian homes",
+      title: "Sydney & Central Coast local",
       description:
-        "From duplexes and townhouses to freestanding family homes, we plan for local climate, NBN setups, and the way Aussie households live day to day.",
+        "We plan for local climate, NBN setups, and the way Aussie households live day to day across Sydney and the Central Coast.",
     },
     {
       title: "Clear scope, tidy installs",
@@ -107,9 +105,9 @@ export const site = {
 
   faq: [
     {
-      question: "Do you only work in one city?",
+      question: "Where do you work?",
       answer:
-        "Consulting is available Australia-wide (video or phone). Installation is arranged locally where practical — tell us your suburb and we’ll be upfront about coverage and travel.",
+        "We serve Sydney and the Central Coast. Tell us your suburb and we’ll be upfront about coverage and travel.",
     },
     {
       question: "Will you lock me into one brand or app?",
@@ -132,9 +130,9 @@ export const site = {
         "It depends on rooms, devices, and whether cabling or electrical upgrades are needed. After a consult we provide a clear written scope and estimate — no package pressure.",
     },
     {
-      question: "Is this a live control dashboard or product store?",
+      question: "How do I get in touch?",
       answer:
-        "This site is an introduction and enquiry form only. We don’t sell a catalogue online or host a live home dashboard here — the real system lives in your home after install.",
+        "Call or text 0431 395 737, or send an enquiry through the form. We’re phone-first — we’ll call you back on the number you provide.",
     },
   ],
 

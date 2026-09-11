@@ -58,48 +58,33 @@ export function Services() {
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="relative border-b border-border"
+      className="border-b border-border bg-background"
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 tech-grid opacity-30 dark:opacity-20"
-      />
-      <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
-        <Reveal className="max-w-2xl">
-          <p className="mb-3 font-mono text-[0.7rem] font-medium uppercase tracking-[0.16em] text-accent">
-            Platforms · 01
-          </p>
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <p className="mb-3 text-sm font-semibold text-accent">Services</p>
           <h2
             id="services-heading"
-            className="font-display text-3xl font-medium tracking-tight text-foreground sm:text-4xl"
+            className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
           >
-            Services
+            Everything your home needs to work smarter
           </h2>
           <p className="mt-3 text-base leading-relaxed text-muted">
-            Four focus areas that cover most Australian households — chosen and
-            combined based on your home, not a one-size-fits-all package.
+            Four focus areas that cover most Sydney and Central Coast households —
+            chosen and combined based on your home, not a fixed package.
           </p>
         </Reveal>
 
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2">
+        <ul className="mt-12 grid gap-5 sm:grid-cols-2">
           {site.services.map((service, index) => (
             <Reveal
               key={service.id}
               as="li"
               delay={((index % 4) + 1) as 1 | 2 | 3 | 4}
-              className="group relative overflow-hidden rounded-xl border border-border bg-card p-6 shadow-[var(--shadow-sm)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-0.5 hover:border-border-strong hover:shadow-[var(--shadow-md)]"
+              className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-sm)] transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]"
             >
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-              />
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-accent-soft text-accent">
-                  {icons[service.id]}
-                </div>
-                <span className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-muted">
-                  {String(index + 1).padStart(2, "0")} / {service.id}
-                </span>
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
+                {icons[service.id]}
               </div>
               <h3 className="mt-4 text-lg font-semibold tracking-tight text-foreground">
                 {service.title}

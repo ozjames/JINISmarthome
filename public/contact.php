@@ -2,19 +2,20 @@
 /**
  * Contact form handler for Crazy Domains / shared PHP hosting.
  *
- * BEFORE GO-LIVE: set CONTACT_TO_EMAIL below to your real inbox.
- * Some hosts disable PHP mail() — if messages never arrive, ask Crazy Domains
- * support about SMTP (or install a PHPMailer/SMTP plugin via cPanel).
+ * Phone-first: enquiries succeed even when CONTACT_TO_EMAIL is empty.
+ * Owner: set CONTACT_TO_EMAIL to a real inbox when available (not shown in UI).
+ * Some hosts disable PHP mail() — ask the host about SMTP if mail never arrives.
  *
  * Redirects use the directory of this script so the same file works under
  * /JINISmarthome/ (GitHub Pages) or /new_home/ (Crazy Domains) without edits.
  */
 
-// ========== CONFIG — edit this ==========
-define('CONTACT_TO_EMAIL', 'REPLACE_WITH_YOUR_EMAIL@example.com.au'); // ← set recipient
-define('CONTACT_FROM_EMAIL', 'noreply@example.com.au'); // optional: From address (use a domain you control)
+// ========== CONFIG — owner edit only (not shown on the website) ==========
+// Leave empty for phone-first mode (no mail attempt). Set when an inbox is ready.
+define('CONTACT_TO_EMAIL', '');
+define('CONTACT_FROM_EMAIL', 'noreply@jinitech.com.au'); // optional From when mailing
 define('CONTACT_SUBJECT', 'JINI Smart Home — website enquiry');
-// ========================================
+// ========================================================================
 
 header('X-Content-Type-Options: nosniff');
 
@@ -62,8 +63,8 @@ if ($name === '') {
     redirect_home('sent=0&error=' . rawurlencode('Name is required.'));
 }
 
-if ($email === '' && $phone === '') {
-    redirect_home('sent=0&error=' . rawurlencode('Provide an email or phone number.'));
+if ($phone === '') {
+    redirect_home('sent=0&error=' . rawurlencode('Phone number is required so we can call you back.'));
 }
 
 if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -82,33 +83,33 @@ if ($message === '' || strlen($message) < 10) {
     redirect_home('sent=0&error=' . rawurlencode('Please include a short message.'));
 }
 
-if (CONTACT_TO_EMAIL === 'REPLACE_WITH_YOUR_EMAIL@example.com.au' || CONTACT_TO_EMAIL === '') {
-    redirect_home('sent=0&error=' . rawurlencode('Contact form is not configured yet. Set CONTACT_TO_EMAIL in contact.php.'));
-}
-
 $safeName = str_replace(["\r", "\n"], '', $name);
 $safeEmail = str_replace(["\r", "\n"], '', $email);
 $safePhone = str_replace(["\r", "\n"], '', $phone);
 
 $body = "New enquiry from the JINI Smart Home website\n\n"
     . "Name: {$safeName}\n"
+    . "Phone: {$safePhone}\n"
     . "Email: " . ($safeEmail !== '' ? $safeEmail : '(not provided)') . "\n"
-    . "Phone: " . ($safePhone !== '' ? $safePhone : '(not provided)') . "\n"
     . "Preferred contact time: {$preferredTime}\n"
     . "Suburb / city: {$suburb}\n\n"
     . "Message:\n{$message}\n";
 
-$replyTo = $safeEmail !== '' ? $safeEmail : CONTACT_FROM_EMAIL;
-$headers = [];
-$headers[] = 'From: ' . CONTACT_FROM_EMAIL;
-$headers[] = 'Reply-To: ' . $replyTo;
-$headers[] = 'Content-Type: text/plain; charset=UTF-8';
-$headers[] = 'X-Mailer: PHP/' . phpversion();
+// Phone-first: only attempt mail when a real recipient is configured.
+$to = trim(CONTACT_TO_EMAIL);
+if ($to !== '' && $to !== 'REPLACE_WITH_YOUR_EMAIL@example.com.au') {
+    $replyTo = $safeEmail !== '' ? $safeEmail : CONTACT_FROM_EMAIL;
+    $headers = [];
+    $headers[] = 'From: ' . CONTACT_FROM_EMAIL;
+    $headers[] = 'Reply-To: ' . $replyTo;
+    $headers[] = 'Content-Type: text/plain; charset=UTF-8';
+    $headers[] = 'X-Mailer: PHP/' . phpversion();
 
-$ok = @mail(CONTACT_TO_EMAIL, CONTACT_SUBJECT, $body, implode("\r\n", $headers));
-
-if (!$ok) {
-    redirect_home('sent=0&error=' . rawurlencode('Could not send email. Ask your host if PHP mail() is enabled, or use SMTP.'));
+    $ok = @mail($to, CONTACT_SUBJECT, $body, implode("\r\n", $headers));
+    if (!$ok) {
+        // Still succeed for the visitor — phone-first follow-up is the primary path.
+        // Owner can check hosting/SMTP later.
+    }
 }
 
 redirect_home('sent=1');

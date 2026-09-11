@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { site } from "@/lib/site";
 
 export function MobileCTA() {
   const [visible, setVisible] = useState(false);
@@ -33,15 +34,18 @@ export function MobileCTA() {
           : "pointer-events-none translate-y-4 opacity-0"
       }`}
     >
-      <div className="mx-auto flex max-w-lg items-center gap-3 rounded-2xl border border-border bg-[var(--header-bg)] p-2 shadow-[var(--shadow-md)] backdrop-blur-xl">
-        <p className="min-w-0 flex-1 pl-2 text-xs leading-snug text-muted">
-          Ready for a calmer smart home?
-        </p>
+      <div className="mx-auto flex max-w-lg items-center gap-2 rounded-2xl border border-border bg-[var(--header-bg)] p-2 shadow-[var(--shadow-md)] backdrop-blur-xl">
+        <a
+          href={site.contact.phoneHref}
+          className="inline-flex shrink-0 items-center justify-center rounded-xl border border-border bg-card px-3 py-2.5 text-sm font-semibold text-foreground"
+        >
+          Call
+        </a>
         <a
           href="#contact"
-          className="inline-flex shrink-0 items-center justify-center rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground"
+          className="inline-flex min-w-0 flex-1 items-center justify-center rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground"
         >
-          Book consult
+          Free consult
         </a>
       </div>
     </div>
