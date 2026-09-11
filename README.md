@@ -62,7 +62,7 @@ The browser form POSTs to relative `contact.php`. PHP redirects back using `SCRI
 ## Design notes
 
 - Light-first Semrush-style product marketing: white space, bold headlines, strong orange CTAs
-- Brand orange from logo (`#ff6600`); Inter sans; optional dark toggle
+- Brand orange from logo (`#ff6600`); Inter sans; light theme only (logo has black text)
 - Honest copy only — no fake metrics or testimonials
 - Sticky header, FAQ, contact form, scroll behaviour, static export
 

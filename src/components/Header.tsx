@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { site } from "@/lib/site";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { useActiveSection } from "@/hooks/useActiveSection";
 
 export function Header() {
@@ -89,7 +88,6 @@ export function Header() {
             </svg>
             {site.contact.phone}
           </a>
-          <ThemeToggle />
           <a
             href="#contact"
             className="hidden items-center justify-center rounded-md bg-accent px-3.5 py-2 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-hover sm:inline-flex"

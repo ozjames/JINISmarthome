@@ -23,29 +23,6 @@
   color-scheme: light;
 }
 
-html.dark {
-  --background: #0b0f14;
-  --foreground: #f3f4f6;
-  --muted: #9ca3af;
-  --card: #121821;
-  --card-elevated: #171e28;
-  --border: #243041;
-  --border-strong: #334155;
-  --accent: #ff7a26;
-  --accent-hover: #ff8f4a;
-  --accent-soft: rgba(255, 122, 38, 0.12);
-  --accent-foreground: #111827;
-  --accent-glow: rgba(255, 122, 38, 0.22);
-  --surface-muted: #151c26;
-  --danger: #f87171;
-  --header-bg: rgba(11, 15, 20, 0.9);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35), 0 4px 14px rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.45);
-  --ring: var(--accent);
-  --hero-tint: #121018;
-  color-scheme: dark;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
