@@ -53,7 +53,7 @@ The browser form POSTs to relative `contact.php`. PHP redirects back using `SCRI
 | `src/lib/site.ts` | Brand name, tagline, copy, and contact details |
 | `src/components/` | Landing sections (Hero, Services, Why us, Process, FAQ, Contact, Footer) |
 | `src/app/page.tsx` | Single-page landing composition |
-| `public/logo/logo.png` | Brand logo (header/footer) |
+| `public/logo/logo.png` / `logo-light.png` | Brand logos (header dark text; footer light wordmark) |
 | `public/contact.php` | PHP handler for Crazy Domains shared hosting |
 | `next.config.ts` | `output: 'export'`, `BASE_PATH`-driven `basePath` / `assetPrefix` |
 | `.github/workflows/pages.yml` | GitHub Pages CI deploy |
@@ -62,7 +62,7 @@ The browser form POSTs to relative `contact.php`. PHP redirects back using `SCRI
 ## Design notes
 
 - Light-first Semrush-style product marketing: white space, bold headlines, strong orange CTAs
-- Brand orange from logo (`#ff6600`); Inter sans; light theme only (logo has black text)
+- Brand orange from logo (`#ff6600`); Inter sans; light theme only; dark footer uses `logo-light.png`
 - Honest copy only — no fake metrics or testimonials
 - Sticky header, FAQ, contact form, scroll behaviour, static export
 
